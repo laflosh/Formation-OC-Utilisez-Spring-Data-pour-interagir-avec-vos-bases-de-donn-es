@@ -14,6 +14,8 @@ import com.openclassrooms.dataLayer.service.CategoryService;
 import com.openclassrooms.dataLayer.service.CommentService;
 import com.openclassrooms.dataLayer.service.ProductService;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootApplication
 public class DataLayerApplication implements CommandLineRunner {
 
@@ -31,6 +33,7 @@ public class DataLayerApplication implements CommandLineRunner {
 	}
 	
 	@Override
+	@Transactional
 	public void run(String... args) throws Exception{
 	
 		Iterable<Product> products = productService.getProducts();
@@ -53,6 +56,10 @@ public class DataLayerApplication implements CommandLineRunner {
 		Optional<Category> optCategory = categoryService.getCategory(1);
 		Category categoryId1 = optCategory.get();
 		System.out.println(categoryId1.getName());
+		
+		categoryId1.getProducts().forEach(
+				product -> System.out.println(product.getName()));	
+		
 	}
 
 }
