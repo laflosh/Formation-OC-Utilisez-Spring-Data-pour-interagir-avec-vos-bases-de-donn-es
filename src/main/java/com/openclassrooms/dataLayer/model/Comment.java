@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "produit")
+@Table(name = "commentaire")
 public class Comment {
 
 	@Id
@@ -16,7 +16,7 @@ public class Comment {
 	@Column(name = "commentaire_id")
 	private int commentId;
 	
-	@Column(name = "contenue")
+	@Column(name = "contenu")
 	private String name;
 
 	public int getId() {
