@@ -1,5 +1,7 @@
 package com.openclassrooms.dataLayer.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "commentaire")
+@DynamicUpdate
 public class Comment {
 
 	@Id
@@ -23,7 +26,10 @@ public class Comment {
 	private String content;
 	
 	@ManyToOne(
-			cascade = CascadeType.ALL
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+					}
 			)
 	@JoinColumn(name="produit_id")
 	private Product product;
