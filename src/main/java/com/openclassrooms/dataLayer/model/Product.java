@@ -6,11 +6,10 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -33,12 +32,17 @@ public class Product {
 	private int cost;
 	
 	@OneToMany(
+			mappedBy = "product",
 			cascade = CascadeType.ALL,
-			orphanRemoval = true,
-			fetch = FetchType.EAGER
+			orphanRemoval = true
 			)
-	@JoinColumn(name = "produit_id")
 	private List<Comment> comments = new ArrayList<Comment>();
+	
+	@ManyToMany(
+			mappedBy = "products",
+			cascade = CascadeType.ALL
+			)
+	private List<Category> categories = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -79,5 +83,24 @@ public class Product {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+	
+	public void addComment(Comment comment) {
+		comments.add(comment);
+		comment.setProduct(this);
+	}
+ 
+	public void removeComment(Comment comment) {
+		comments.remove(comment);
+		comment.setProduct(null);
+	}
+
 	
 }

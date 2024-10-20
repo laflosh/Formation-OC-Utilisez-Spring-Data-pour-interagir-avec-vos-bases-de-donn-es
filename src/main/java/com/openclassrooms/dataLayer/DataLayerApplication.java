@@ -36,29 +36,30 @@ public class DataLayerApplication implements CommandLineRunner {
 	@Transactional
 	public void run(String... args) throws Exception{
 	
-		Iterable<Product> products = productService.getProducts();
-		products.forEach(product -> System.out.println(product.getName()));
-		
 		Optional<Product> optProduct = productService.getProduct(1);
 		Product productId1 = optProduct.get();
-		System.out.println(productId1.getName());
+ 
+		System.out.println(productId1.getName());	
+ 
+		productId1.getCategories().forEach(
+				category -> System.out.println(category.getName()));
 		
-		Iterable<Comment> comments = commentService.getComments();
-		comments.forEach(comment -> System.out.println(comment.getName()));
-		
-		Optional<Comment> optComment = commentService.getComment(1);
-		Comment CommentId1 = optComment.get();
-		System.out.println(CommentId1.getName());
-		
-		Iterable<Category> categories = categoryService.getCategories();
-		categories.forEach(category -> System.out.println(category.getName()));
+		productId1.getComments().forEach(
+				comment -> System.out.println(comment.getContent()));	
 		
 		Optional<Category> optCategory = categoryService.getCategory(1);
 		Category categoryId1 = optCategory.get();
-		System.out.println(categoryId1.getName());
 		
+		System.out.println(categoryId1.getName());	
+ 
 		categoryId1.getProducts().forEach(
-				product -> System.out.println(product.getName()));	
+				product -> System.out.println(product.getName()));
+		
+		Optional<Comment> optComment = commentService.getComment(1);
+		Comment commentId1 = optComment.get();
+		
+		System.out.println(commentId1.getContent());
+		System.out.println(commentId1.getProduct().getName());
 		
 	}
 
