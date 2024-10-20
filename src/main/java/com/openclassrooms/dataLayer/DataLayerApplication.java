@@ -36,30 +36,37 @@ public class DataLayerApplication implements CommandLineRunner {
 	@Transactional
 	public void run(String... args) throws Exception{
 	
-		Optional<Product> optProduct = productService.getProduct(1);
-		Product productId1 = optProduct.get();
- 
-		System.out.println(productId1.getName());	
- 
-		productId1.getCategories().forEach(
+		categoryService.getCategories().forEach(
 				category -> System.out.println(category.getName()));
 		
-		productId1.getComments().forEach(
-				comment -> System.out.println(comment.getContent()));	
+		Category newCategory = new Category();
+		newCategory.setName("Promotion");
 		
-		Optional<Category> optCategory = categoryService.getCategory(1);
-		Category categoryId1 = optCategory.get();
+		newCategory = categoryService.addCategory(newCategory);
 		
-		System.out.println(categoryId1.getName());	
- 
-		categoryId1.getProducts().forEach(
+		categoryService.getCategories().forEach(
+				category -> System.out.println(category.getName()));
+		
+		Product newProduct = new Product();
+		newProduct.setName("AssuranceAuTiersFidelite");
+		newProduct.setDescription("Les garanties de l'assurance au tiers à un prix moindre grâce à votre fidélité!");
+		newProduct.setCost(1100);
+		
+		newCategory.addProduct(newProduct);
+		
+		newProduct = productService.addProduct(newProduct);
+		
+		productService.getProducts().forEach(
 				product -> System.out.println(product.getName()));
+
+		newProduct.getCategories().forEach(
+				category -> System.out.println(category.getName()));
 		
-		Optional<Comment> optComment = commentService.getComment(1);
-		Comment commentId1 = optComment.get();
-		
-		System.out.println(commentId1.getContent());
-		System.out.println(commentId1.getProduct().getName());
+		Comment newComment = new Comment();
+		newComment.setContent("Assurance extraordinaire!");
+		newProduct.addComment(newComment);
+
+		commentService.addComment(newComment);	
 		
 	}
 
